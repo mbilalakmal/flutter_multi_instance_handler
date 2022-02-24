@@ -4,8 +4,8 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:win32/win32.dart';
 import 'package:ffi/ffi.dart';
+import 'package:win32/win32.dart';
 
 import 'controller.dart';
 
@@ -67,7 +67,7 @@ class InstanceControllerWindows extends InstanceController {
       if (msg is SendPort) {
         msg.send(pipe);
       } else {
-        channel.invokeMethod(onSecondInstanceMethodName, msg);
+        msgHandler?.call(msg);
       }
     };
     final reader = ReceivePort()..listen(listenFn);

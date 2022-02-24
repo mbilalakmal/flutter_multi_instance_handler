@@ -1,6 +1,6 @@
 name: multi_instance_handler
 description: Detect and handle multiple instances of an application.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/lsegal/flutter_multi_instance_handler
 
 environment:

@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'controller_windows.dart';
 
 const namespace = 'pub.dev/packages/multi_instance_handler';
-const MethodChannel channel = const MethodChannel(namespace);
-const onSecondInstanceMethodName = 'onSecondInstance';
+
+void Function(dynamic)? msgHandler;
 
 class InstanceController {
   static InstanceController? _instance;
@@ -53,12 +52,9 @@ class InstanceController {
   }
 
   void _initChannel() {
-    channel.setMethodCallHandler((call) async {
-      if (call.method == onSecondInstanceMethodName && callback != null) {
-        final out = (call.arguments as List).map((a) => a.toString()).toList();
-        callback!(out);
-      }
-      return null;
-    });
+    msgHandler = (msg) {
+      final out = (msg as List).map((a) => a.toString()).toList();
+      callback!(out);
+    };
   }
 }
